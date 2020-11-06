@@ -4,6 +4,9 @@ import secrets
 import requests
 from bs4 import *
 from threading import *
+import json
+from collections import Counter
+from bokeh.plotting import figure, output_file, show
 
 def character_input(name, age, show):
     diff = 100 - age
@@ -132,22 +135,84 @@ def is_in_list(list, n):
 # t1.gen()
 # t2.start()
 # t2.gun()
+num = [2,3,23,5,3,5,323,21,42,54,23,65,744,33]
+print(sum(num))
+mul = 1
+for ele in num:
+    mul *= ele
+print(mul)
+print(max(num))
+print(min(num))
+print(set(num))
+print( 'not empty' if len(num)>0 else 'empty')
+print(num.copy())
+str_lst = ['abc', 'xyz', 'aba', '1221', 'reer', 'jj', 'kewyertk']
+count = 0
+for txt in str_lst:
+    if len(txt) >= 2:
+        if txt[0] == txt[(len(txt)-1)]:
+            count+=1
+print(count)
+tup_lst = [(2, 5), (1, 2), (4, 4), (2, 3), (2, 1)]
+def last(n): return n[-1]
 
-# n = 100
-# ind = -1
-# nums = [45, 65, 78, 87, 98, 123, 234, 567, 5678]
-#
-# is_in_list(nums, 5678)
+def sort_list_last(tuples):
+  return sorted(tuples, key=last)
+print(sort_list_last(tup_lst))
 
-fun = [[0 for col in range(3)] for row in range(3)]
-print(fun)
-for i in range(9):
+bd_dict = {
+    "abbu": "20/08/1968",
+    "ammi": "26/10/1974",
+    "firoz": "05/02/1995",
+    "afrid": "12/03/1997",
+    "arshad": "23/05/1999"
+}
+# while True:
+#     bd_per = input("Who's birthday do you want to look up?: ").lower()
+#     print("{}'s birthday on {}"
+#         .format(bd_per, bd_dict.get(bd_per, r'DD/MM/YYYY')))
 
-    # user_ip = input('please select a square to tick(in format row,col): ').split(',')
-    # row = int(user_ip[0])
-    # col = int(user_ip[1])
-    # fun[row][col] = 'X' if i % 2 == 0 else 'O'
-    # print(fun)
-    print(i+1)
+with open('/home/syed/Documents/PyDocs/birthday.json', 'w') as file:
+    json.dump(bd_dict, file)
+with open('/home/syed/Documents/PyDocs/birthday.json','r') as bd_doc:
+    bd = json.load(bd_doc)
+bd_per = input("Who's birthday do you want to look up?: ").lower()
+print("{}'s birthday on {}"
+        .format(bd_per, bd.get(bd_per, r'DD/MM/YYYY')))
 
+months = []
 
+num_to_string = {
+	1: "January",
+	2: "February",
+	3: "March",
+	4: "April",
+	5: "May",
+	6: "June",
+	7: "July",
+	8: "August",
+	9: "September",
+	10: "October",
+	11: "November",
+	12: "December"
+}
+
+for month in bd.values():
+    bd_month = int(month.split('/')[1])
+    months.append(num_to_string.get(bd_month))
+print(Counter(months))
+# prepare some data
+x = [1, 2, 3, 4, 5]
+y = [6, 7, 2, 4, 5]
+
+# output to static HTML file
+output_file("lines.html")
+
+# create a new plot with a title and axis labels
+p = figure(title="simple line example", x_axis_label='x', y_axis_label='y')
+
+# add a line renderer with legend and line thickness
+p.line(x, y, legend_label="Temp.", line_width=2)
+
+# show the results
+show(p)
